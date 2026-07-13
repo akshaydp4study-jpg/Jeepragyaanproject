@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-void: #0a0a0c;
+  --color-bg-panel: #16161a;
+  --color-bg-panel-raised: #1f1f24;
+  --color-border-subtle: #2a2a30;
+  --color-nerv-orange: #ff6600;
+  --color-nerv-orange-dim: #cc5200;
+  --color-eva-purple: #4b0082;
+  --color-eva-purple-bright: #7d26cd;
+  --color-hazard-yellow: #ffcc00;
+  --color-alert-red: #e60012;
+  --color-sync-green: #39ff14;
+  --color-text-primary: #e8e8e8;
+  --color-text-muted: #8a8a8a;
+  --color-text-dim: #55555a;
+
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
+  --font-mono-tech: "Share Tech Mono", monospace;
+
+  --animate-flash-red: flash-red 1.5s infinite;
+
+  @keyframes flash-red {
+    0%, 100% { border-color: var(--color-border-subtle); box-shadow: none; }
+    50% { border-color: var(--color-alert-red); box-shadow: 0 0 10px rgba(230, 0, 18, 0.4); }
+  }
+}
+
+@layer utilities {
+  .hazard-stripe {
+    background-image: repeating-linear-gradient(
+      45deg,
+      #ffcc00,
+      #ffcc00 10px,
+      #0a0a0c 10px,
+      #0a0a0c 20px
+    );
+  }
+  .hazard-stripe-orange {
+    background-image: repeating-linear-gradient(
+      45deg,
+      #ff6600,
+      #ff6600 10px,
+      #0a0a0c 10px,
+      #0a0a0c 20px
+    );
+  }
+}
+
+body {
+  background-color: var(--color-bg-void);
+  color: var(--color-text-primary);
+  font-family: var(--font-rajdhani), sans-serif;
+}
+
+/* Custom scrollbars that adapt to the theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-nerv-orange);
+}
