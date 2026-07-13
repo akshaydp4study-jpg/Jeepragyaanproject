@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "activeThemeId": "nerv-terminal",
+  "notes": "Consumed by ThemeProvider. Each theme has an identical token schema so the same components render correctly regardless of which theme is active. Themes swap design tokens and motif/animation personality only -- they do not change app structure, routes, or component layout.",
+  "globalScrollEngine": {
+    "inspiration": "landonorris.com -- cinematic momentum scroll, sharp transitions, confident reveal choreography",
+    "libraries": {
+      "momentumScroll": "Lenis",
+      "scrollTriggeredReveals": "Framer Motion (whileInView, useScroll, useTransform)",
+      "optionalPinnedSequences": "GSAP ScrollTrigger -- Dashboard hero only, see scope note"
+    },
+    "scopeNote": "Full scroll-jacking / pinned-section takeovers are reserved for the Dashboard's hero/intro area only -- a one-time, non-repetitive entrance. Physics/Chemistry/Maths/Tests routes get momentum smoothing and staggered reveal-on-scroll for cards and lecture rows, but must NEVER pin or hijack scroll on routes the user interacts with dozens of times a day (ticking checkboxes, filtering tests). Cinematic effects that add friction to repeat interactions are a usability regression, not a feature.",
+    "sharedBehaviors": [
+      "Smooth inertia scrolling (Lenis) applied globally, all themes",
+      "Chapter/lecture cards and test rows stagger-fade-in as they enter viewport (Framer Motion whileInView, ~40-60ms stagger per item, disabled entirely if prefers-reduced-motion is set)",
+      "Numeric stats (sync ratio %, hours remaining) animate as a count-up on first reveal only, not on every re-render",
+      "Countdown digits (T-minus / days-hours-min-sec) update via their own 1s interval, unaffected by scroll animation -- do not wrap them in scroll-reveal logic since they must always be visible/live regardless of scroll position"
+    ]
+  },
+  "themes": [
+    {
+      "id": "nerv-terminal",
+      "name": "NERV Terminal",
+      "inspiration": "Evangelion / NERV command console",
+      "mood": "Tense, technical, high-stakes military-readout. Feels like tracking a countdown to impact, not a to-do list.",
+      "colors": {
+        "bgVoid": "#0a0a0c",
+        "bgPanel": "#16161a",
+        "bgPanelRaised": "#1f1f24",
+        "borderSubtle": "#2a2a30",
+        "accentPrimary": "#ff6600",
+        "accentPrimaryDim": "#cc5200",
+        "accentSecondary": "#4b0082",
+        "accentSecondaryBright": "#7d26cd",
+        "warning": "#ffcc00",
+        "danger": "#e60012",
+        "success": "#39ff14",
+        "textPrimary": "#e8e8e8",
+        "textMuted": "#8a8a8a",
+        "textDim": "#55555a"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Ring labeled 'SYNC RATIO', sync-green fill, ticks like a gauge",
+        "sectionDividerStyle": "Thin diagonal hazard-stripe accent bar (repeating 45deg yellow/void)",
+        "buttonStyle": "Sharp corners, uppercase, wide letter-spacing, thin border, no fill until hover",
+        "cardStyle": "Flat panel, 1px border-subtle, no shadow, faint scanline texture optional (off by default)",
+        "signatureElement": "T-MINUS countdown in large Share Tech Mono digits with a flicker-tick on each second"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Snap-in with minimal easing (feels like a terminal printing a line), occasional single-frame glitch-flicker on major section entrance, no soft parallax drift"
+      }
+    },
+    {
+      "id": "urban-wild",
+      "name": "Urban Wild",
+      "inspiration": "Urban Wild Studio -- illustrated creative-agency site",
+      "mood": "Playful, warm, hand-made. Feels encouraging rather than clinical -- makes a grind (revision hours) feel less punishing.",
+      "colors": {
+        "bgVoid": "#0d1f17",
+        "bgPanel": "#14311f",
+        "bgPanelRaised": "#1b4332",
+        "borderSubtle": "#2f5c45",
+        "accentPrimary": "#f4703a",
+        "accentPrimaryDim": "#c9552a",
+        "accentSecondary": "#b5c332",
+        "accentSecondaryBright": "#d6e34f",
+        "warning": "#f6c6d7",
+        "danger": "#e14b3f",
+        "success": "#7ec8e3",
+        "textPrimary": "#f5f1e5",
+        "textMuted": "#b9c9bd",
+        "textDim": "#7d9083"
+      },
+      "typography": {
+        "displayFont": "Fredoka",
+        "bodyFont": "Work Sans",
+        "monoFont": "JetBrains Mono",
+        "googleFonts": [
+          "Fredoka:wght@600;700",
+          "Work Sans:wght@400;500;600",
+          "JetBrains Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Thick rounded arc/ribbon that visually 'winds' further around as completion rises, echoing the squiggle-ribbon graphic",
+        "sectionDividerStyle": "Colorful winding ribbon/squiggle line between sections instead of a hard rule",
+        "buttonStyle": "Full pill shape, solid fill, no border, soft drop shadow on hover",
+        "cardStyle": "Large rounded corners (16-24px), no border, flat color fill or photo, generous padding",
+        "signatureElement": "Rounded illustrated icon set for subject sections (hand-drawn feel), italic serif micro-labels above headers ('WHAT YOU'RE STUDYING' etc.)"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Ribbon/squiggle line literally draws itself in (SVG stroke-dashoffset animation) as the section scrolls into view, cards gently rise + fade, soft spring easing, nothing sharp or mechanical"
+      }
+    },
+    {
+      "id": "expedition-editorial",
+      "name": "Expedition",
+      "inspiration": "National-Geographic-style dark editorial/documentary site",
+      "mood": "Moody, exploratory, high-contrast. Treats the syllabus like a body of territory to be mapped and covered, not a checklist.",
+      "colors": {
+        "bgVoid": "#0a0a0a",
+        "bgPanel": "#141414",
+        "bgPanelRaised": "#1c1c1c",
+        "borderSubtle": "#2a2a2a",
+        "accentPrimary": "#ffcc00",
+        "accentPrimaryDim": "#c9a200",
+        "accentSecondary": "#3a3a3a",
+        "accentSecondaryBright": "#5c5c5c",
+        "warning": "#ffcc00",
+        "danger": "#d8342a",
+        "success": "#4fae6e",
+        "textPrimary": "#f2f2f2",
+        "textMuted": "#8c8c8c",
+        "textDim": "#525252"
+      },
+      "typography": {
+        "displayFont": "Inter",
+        "bodyFont": "Inter",
+        "monoFont": "Space Mono",
+        "googleFonts": [
+          "Inter:wght@400;600;800;900",
+          "Space Mono:wght@400;700"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Plain numeric readout ('38 / 42') with a thin horizontal underline bar, documentary-caption style, not a decorative ring",
+        "sectionDividerStyle": "Torn-paper-edge transition between major sections (jagged white clip-path over the next section's background)",
+        "buttonStyle": "Rectangular, thin 1px border, small yellow square bullet before label, no fill",
+        "cardStyle": "Photo/dark card with a subtle dot-grid texture overlay, numbered section labels ('07 Physics.') in the corner",
+        "signatureElement": "Small yellow square glyph used as a recurring bullet/marker throughout (mirrors the NatGeo frame icon)"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Torn-paper wipe transition between major sections, otherwise content fades up slowly and heavily (long duration, low-key), grain/noise texture drifts subtly in the background"
+      }
+    },
+    {
+      "id": "ultralight-hex",
+      "name": "Ultralight",
+      "inspiration": "Apidura -- outdoor/cycling gear brand, hexagonal navigation",
+      "mood": "Premium, minimal, expedition-gear precision. Every gram (hour) accounted for.",
+      "colors": {
+        "bgVoid": "#1b2838",
+        "bgPanel": "#24344a",
+        "bgPanelRaised": "#2e415a",
+        "borderSubtle": "#4a5b73",
+        "accentPrimary": "#c9a227",
+        "accentPrimaryDim": "#a4841e",
+        "accentSecondary": "#a08d68",
+        "accentSecondaryBright": "#c7b48a",
+        "warning": "#d9a441",
+        "danger": "#b4483a",
+        "success": "#6b9c7a",
+        "textPrimary": "#f0ece0",
+        "textMuted": "#a9a091",
+        "textDim": "#6f6a60"
+      },
+      "typography": {
+        "displayFont": "Barlow",
+        "bodyFont": "Barlow",
+        "monoFont": "IBM Plex Mono",
+        "googleFonts": [
+          "Barlow:wght@200;300;500;700",
+          "IBM Plex Mono:wght@400;500"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Slim linear bar, thin outline, minimal fill color -- restraint over decoration",
+        "sectionDividerStyle": "Thin horizontal hairline, generous whitespace, no ornament",
+        "buttonStyle": "Rectangular outline only (no fill), wide letter-spacing uppercase label, hover fills solid",
+        "cardStyle": "Hexagonal tile option for the subject-selection view specifically (Physics/Chemistry/Maths as 3 hex tiles, honeycomb layout) -- chapter-level cards inside a subject stay rectangular for practical list scanning",
+        "signatureElement": "Hexagon as the subject-picker shape on the Dashboard; everything below that level (chapters, lectures) is standard list/card UI for usability"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Hex tiles assemble into place (scale + fade from 0.9, staggered by honeycomb position) on Dashboard load; elsewhere, simple restrained fade, no bounce or overshoot easing"
+      }
+    },
+    {
+      "id": "wanderlust-japan",
+      "name": "Wanderlust",
+      "inspiration": "Japan Tours -- warm travel/itinerary site",
+      "mood": "Warm, inviting, momentum-building. Frames the 11-month arc as a journey with a clear itinerary, not a grind.",
+      "colors": {
+        "bgVoid": "#0d0d0d",
+        "bgPanel": "#171717",
+        "bgPanelRaised": "#212121",
+        "borderSubtle": "#3a3a3a",
+        "accentPrimary": "#c9a227",
+        "accentPrimaryDim": "#a1811f",
+        "accentSecondary": "#e8a0bf",
+        "accentSecondaryBright": "#f2bfd6",
+        "warning": "#e0b25a",
+        "danger": "#c0432f",
+        "success": "#7a9e8e",
+        "textPrimary": "#f5f0e6",
+        "textMuted": "#a39c8c",
+        "textDim": "#6b6558"
+      },
+      "typography": {
+        "displayFont": "Anton",
+        "bodyFont": "Poppins",
+        "monoFont": "Space Mono",
+        "googleFonts": [
+          "Anton",
+          "Poppins:wght@400;500;600",
+          "Space Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Vertical connected-dot timeline (like the Days 1-3 / 4-6 / 7-10 itinerary), each chapter is a stop on the line with a filled dot once complete",
+        "sectionDividerStyle": "Thin horizontal rule flanked by a section label, generous top/bottom spacing",
+        "buttonStyle": "Pill, solid light fill on dark background, dark text",
+        "cardStyle": "Bordered rounded-rect info card with a small icon + label (mirrors 'Guides / Flights / Transfers / Hotels' cards) -- good fit for the Settings constants and the Tests filter chips",
+        "signatureElement": "Huge oversized condensed headline treatment for section titles (e.g. a giant 'PHYSICS' behind the chapter list, low opacity, mirrors the giant 'JAPAN' hero type)"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Background gradient subtly shifts hue as you scroll between sections (peach to dusk-blue, echoing the page-level gradient), timeline dots fill in with a short delay after their card enters view, photo/hero elements get a slow parallax drift"
+      }
+    },
+    {
+      "id": "duotone-folio",
+      "name": "Duotone",
+      "inspiration": "Folioblox -- bold personal-portfolio site with duotone photography",
+      "mood": "Confident, bold, high-contrast personal-record energy -- your prep tracked like a portfolio of work, not a chore list.",
+      "colors": {
+        "bgVoid": "#0a0a0a",
+        "bgPanel": "#151515",
+        "bgPanelRaised": "#1f1f1f",
+        "borderSubtle": "#2c2c2c",
+        "accentPrimary": "#ff5a1f",
+        "accentPrimaryDim": "#cc4818",
+        "accentSecondary": "#7a2e0f",
+        "accentSecondaryBright": "#a8451c",
+        "warning": "#e08a3c",
+        "danger": "#d8301f",
+        "success": "#4caf6e",
+        "textPrimary": "#f5f5f5",
+        "textMuted": "#999999",
+        "textDim": "#5c5c5c"
+      },
+      "typography": {
+        "displayFont": "Sora",
+        "bodyFont": "Inter",
+        "monoFont": "JetBrains Mono",
+        "googleFonts": [
+          "Sora:wght@600;700;800",
+          "Inter:wght@400;500;600",
+          "JetBrains Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Bold oversized percentage number as the primary display, small ring as a secondary accent -- numbers-forward like a stat card",
+        "sectionDividerStyle": "Hard cut from a bold gradient/duotone hero block straight into a flat black panel -- no soft transition",
+        "buttonStyle": "Pill, solid accent fill, small circular arrow glyph trailing the label",
+        "cardStyle": "Grayscale/duotone-treated imagery blocks framing numbered stats (#01-#04 style) -- good fit for a 'this week' stats strip on the Dashboard",
+        "signatureElement": "Numbered feature list style (#01, #02, #03...) reused for ranked/ordered content, e.g. top-priority pending chapters or weakest-scoring test subjects"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Hard color-block wipe/reveal (duotone gradient sweeps in) on major section entrance, then a snappy, confident fade+slide for individual cards -- fast, decisive easing, not floaty"
+      }
+    },
+    {
+      "id": "formula-one-paddock",
+      "name": "Formula 1 Paddock",
+      "inspiration": "Formula 1 timing wall, pit-lane strategy screens, and carbon-fiber garage panels",
+      "mood": "Fast, exacting, race-engineered. Turns study progress into lap deltas, stint targets, and podium-chase momentum.",
+      "colors": {
+        "bgVoid": "#07080a",
+        "bgPanel": "#111318",
+        "bgPanelRaised": "#1b1f27",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#e10600",
+        "accentPrimaryDim": "#9b0500",
+        "accentSecondary": "#00d2be",
+        "accentSecondaryBright": "#4fffee",
+        "warning": "#ffd400",
+        "danger": "#ff1f1f",
+        "success": "#00ff87",
+        "textPrimary": "#f7f7f7",
+        "textMuted": "#b6beca",
+        "textDim": "#68707b"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    }
+  ]
+}
