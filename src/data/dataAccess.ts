@@ -15,6 +15,11 @@ export async function toggleLecture(lectureId: string, completed: boolean): Prom
   await db.lectures.update(lectureId, { completed, completedAt });
 }
 
+export async function toggleLectureDts(lectureId: string, completed: boolean): Promise<void> {
+  const dtsCompletedAt = completed ? new Date().toISOString() : null;
+  await db.lectures.update(lectureId, { dtsCompleted: completed, dtsCompletedAt });
+}
+
 export async function bulkToggleLectures(chapterId: string, completed: boolean): Promise<void> {
   const completedAt = completed ? new Date().toISOString() : null;
   const lectures = await db.lectures.where('chapterId').equals(chapterId).toArray();
@@ -195,7 +200,7 @@ export async function exportAllData(): Promise<string> {
   const appSettings = await db.appSettings.get('singleton');
 
   const exportPayload: ExportData = {
-    version: 2,
+    version: 3,
     chapters,
     lectures,
     problemSessions,
@@ -215,7 +220,7 @@ export async function importData(jsonString: string): Promise<{ success: boolean
     if (!data || typeof data !== 'object') {
       throw new Error('Invalid JSON structure');
     }
-    if (data.version !== 1 && data.version !== 2) {
+    if (data.version !== 1 && data.version !== 2 && data.version !== 3) {
       throw new Error(`Unsupported export version: ${data.version}`);
     }
     if (!Array.isArray(data.chapters) || !Array.isArray(data.lectures) || !Array.isArray(data.tests)) {
@@ -240,7 +245,7 @@ export async function importData(jsonString: string): Promise<{ success: boolean
 
       // Put new records
       await db.chapters.bulkPut(data.chapters);
-      await db.lectures.bulkPut(data.lectures);
+      await db.lectures.bulkPut(data.lectures.map((lecture) => ({ ...lecture, dtsCompleted: lecture.dtsCompleted ?? false, dtsCompletedAt: lecture.dtsCompletedAt ?? null })));
       if (Array.isArray(data.problemSessions) && data.problemSessions.length > 0) {
         await db.problemSessions.bulkPut(data.problemSessions);
       } else {
@@ -257,6 +262,11 @@ export async function importData(jsonString: string): Promise<{ success: boolean
       await db.appSettings.put({
         ...data.appSettings,
         theoryPlanStartDate: data.appSettings.theoryPlanStartDate || APP_SETTINGS_DEFAULT.theoryPlanStartDate,
+        theoryTargetDate: data.appSettings.theoryTargetDate || APP_SETTINGS_DEFAULT.theoryTargetDate,
+        plannedLecturesPerDay: data.appSettings.plannedLecturesPerDay ?? APP_SETTINGS_DEFAULT.plannedLecturesPerDay,
+        physicsLecturesPerDay: data.appSettings.physicsLecturesPerDay ?? APP_SETTINGS_DEFAULT.physicsLecturesPerDay,
+        chemistryLecturesPerDay: data.appSettings.chemistryLecturesPerDay ?? APP_SETTINGS_DEFAULT.chemistryLecturesPerDay,
+        mathsLecturesPerDay: data.appSettings.mathsLecturesPerDay ?? APP_SETTINGS_DEFAULT.mathsLecturesPerDay,
       });
     });
 

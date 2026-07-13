@@ -77,11 +77,11 @@ describe('calculations utilities', () => {
       ];
       
       const lectures: Lecture[] = [
-        { id: 'phy-1-L1', chapterId: 'phy-1', lectureNumber: 1, completed: true, completedAt: null },
-        { id: 'phy-1-L2', chapterId: 'phy-1', lectureNumber: 2, completed: true, completedAt: null },
-        { id: 'phy-1-L3', chapterId: 'phy-1', lectureNumber: 3, completed: false, completedAt: null },
-        { id: 'phy-1-L4', chapterId: 'phy-1', lectureNumber: 4, completed: false, completedAt: null },
-        { id: 'mat-1-L1', chapterId: 'mat-1', lectureNumber: 1, completed: true, completedAt: null },
+        { id: 'phy-1-L1', chapterId: 'phy-1', lectureNumber: 1, completed: true, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
+        { id: 'phy-1-L2', chapterId: 'phy-1', lectureNumber: 2, completed: true, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
+        { id: 'phy-1-L3', chapterId: 'phy-1', lectureNumber: 3, completed: false, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
+        { id: 'phy-1-L4', chapterId: 'phy-1', lectureNumber: 4, completed: false, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
+        { id: 'mat-1-L1', chapterId: 'mat-1', lectureNumber: 1, completed: true, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
       ];
 
       const settings: AppSettings = {
@@ -120,7 +120,7 @@ describe('calculations utilities', () => {
       expect(result.completedLectures).toBe(3);
       expect(result.totalHours).toBe(20);
       expect(result.completedHours).toBe(7);
-      expect(result.overallPercentage).toBe(35);
+      expect(result.overallPercentage).toBeCloseTo((3 / 9) * 100);
     });
   });
 
@@ -177,4 +177,32 @@ describe('calculations utilities', () => {
     });
   });
 
+});
+
+describe('DTS and planning additions', () => {
+  it('keeps lecture and DTS completion independent in totals', () => {
+    const chapters: Chapter[] = [
+      { id: 'che-1', subject: 'Chemistry', domain: 'Physical', slNo: 1, chapterName: 'Chem', totalLectures: 2, chemDurationHours: { x1: 4, x1_25: 3.2, x1_5: 2.67, x1_75: 2.29, x2: 2 } },
+    ];
+    const lectures: Lecture[] = [
+      { id: 'che-1-L1', chapterId: 'che-1', lectureNumber: 1, completed: true, completedAt: null, dtsCompleted: false, dtsCompletedAt: null },
+      { id: 'che-1-L2', chapterId: 'che-1', lectureNumber: 2, completed: false, completedAt: null, dtsCompleted: true, dtsCompletedAt: null },
+    ];
+    const settings: AppSettings = { id: 'singleton', chemPreferredSpeed: '2x', mathsAvgLectureMinutes: 120, theoryPlanStartDate: '2026-01-01' };
+
+    const result = calculateOverallStats(chapters, lectures, settings);
+    expect(result.chemistry.completedLectures).toBe(1);
+    expect(result.chemistry.dtsCompleted).toBe(1);
+    expect(result.chemistry.dtsPending).toBe(1);
+    expect(result.chemistry.percentage).toBe(50);
+    expect(result.chemistry.dtsPercentage).toBe(50);
+  });
+
+  it('uses configured planned lectures per day for expected coverage', () => {
+    const result = calculateTheoryCoverageProjection('2026-01-01', '2026-01-10', new Date(2026, 0, 3), 100, 4, 2);
+    expect(result.configuredLecturesPerDay).toBe(2);
+    expect(result.plannedLectures).toBe(6);
+    expect(result.lectureGap).toBe(-2);
+    expect(result.status).toBe('behind');
+  });
 });

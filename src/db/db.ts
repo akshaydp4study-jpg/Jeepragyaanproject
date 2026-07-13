@@ -30,6 +30,28 @@ export class ProjectZDatabase extends Dexie {
       examConfig: 'id',
       appSettings: 'id'
     });
+
+    this.version(3).stores({
+      chapters: 'id, subject, domain, slNo',
+      lectures: 'id, chapterId, lectureNumber, completed, dtsCompleted',
+      problemSessions: 'id, sessionNumber, completed',
+      tests: 'id, date, *subjects, analysisDone',
+      pdfAttachments: 'id, testId',
+      examConfig: 'id',
+      appSettings: 'id'
+    }).upgrade(async (tx) => {
+      await tx.table('lectures').toCollection().modify((lecture) => {
+        if (lecture.dtsCompleted === undefined) lecture.dtsCompleted = false;
+        if (lecture.dtsCompletedAt === undefined) lecture.dtsCompletedAt = null;
+      });
+      await tx.table('appSettings').toCollection().modify((settings) => {
+        settings.theoryTargetDate ||= '2026-12-31';
+        settings.plannedLecturesPerDay ??= 2;
+        settings.physicsLecturesPerDay ??= null;
+        settings.chemistryLecturesPerDay ??= null;
+        settings.mathsLecturesPerDay ??= null;
+      });
+    });
   }
 }
 

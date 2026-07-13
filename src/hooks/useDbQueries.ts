@@ -37,28 +37,7 @@ export function useAllTests(): Test[] {
   return useLiveQuery(() => db.tests.orderBy('date').reverse().toArray()) || [];
 }
 
-// Compute comprehensive metrics (Weighted by Hours)
-export interface SubjectStats {
-  subject: 'Physics' | 'Chemistry' | 'Maths';
-  totalLectures: number;
-  completedLectures: number;
-  totalHours: number;
-  completedHours: number;
-  percentage: number;
-}
-
-export interface AppOverallStats {
-  physics: SubjectStats;
-  chemistry: SubjectStats;
-  maths: SubjectStats;
-  totalLectures: number;
-  completedLectures: number;
-  totalHours: number;
-  completedHours: number;
-  overallPercentage: number;
-}
-
-export function useOverallStats(): AppOverallStats | null {
+export function useOverallStats(): import('../utils/calculations').AppOverallStats | null {
   const chapters = useChapters();
   const lectures = useLectures();
   const settings = useAppSettings();

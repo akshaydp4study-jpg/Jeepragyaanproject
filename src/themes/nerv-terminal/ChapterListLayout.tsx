@@ -11,6 +11,7 @@ export default function ChapterListLayout({
   expandedChapterId,
   setExpandedChapterId,
   handleToggle,
+  handleDtsToggle,
   openBulkConfirm,
   prefersReducedMotion = false,
 }: ChapterListLayoutProps) {
@@ -32,7 +33,10 @@ export default function ChapterListLayout({
       {chapters.map((chapter, index) => {
         const chapLectures = lecturesByChapter[chapter.id] || [];
         const completedCount = chapLectures.filter(l => l.completed).length;
+        const dtsCompletedCount = chapLectures.filter(l => l.dtsCompleted).length;
+        const dtsPendingCount = Math.max(0, chapLectures.length - dtsCompletedCount);
         const percentage = chapLectures.length > 0 ? (completedCount / chapLectures.length) * 100 : 0;
+        const dtsPercentage = chapLectures.length > 0 ? (dtsCompletedCount / chapLectures.length) * 100 : 0;
         const isExpanded = expandedChapterId === chapter.id;
 
         const totalHours = getChapterHours(chapter);
@@ -66,6 +70,15 @@ export default function ChapterListLayout({
                   <div className="flex items-center gap-4 text-[11px] font-mono-tech text-text-muted mt-1">
                     <span>
                       LECTURES: <strong className="text-text-primary">{completedCount}/{chapter.totalLectures}</strong>
+                    </span>
+                    <span>
+                      DTS: <strong className="text-text-primary">{dtsCompletedCount}/{chapter.totalLectures}</strong>
+                    </span>
+                    <span>
+                      DTS PENDING: <strong className="text-hazard-yellow">{dtsPendingCount}</strong>
+                    </span>
+                    <span>
+                      CHAPTER DTS: <strong className="text-sync-green">{dtsPercentage.toFixed(1)}%</strong>
                     </span>
                     {totalHours > 0 && (
                       <span>
@@ -117,20 +130,22 @@ export default function ChapterListLayout({
                 {/* Checkbox Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                   {chapLectures.map((lecture) => (
-                    <button
+                    <div
                       key={lecture.id}
-                      onClick={() => handleToggle(lecture.id, lecture.completed)}
-                      className={`flex items-center gap-2 p-3 border rounded text-left transition-all cursor-pointer min-h-[44px] ${
-                        lecture.completed
-                          ? 'bg-sync-green/5 border-sync-green text-sync-green shadow-[inset_0_0_8px_rgba(57,255,20,0.05)]'
-                          : 'bg-bg-panel-raised border-border-subtle text-text-muted hover:text-text-primary hover:border-text-dim'
-                      }`}
+                      className="flex flex-col gap-2 p-3 border rounded text-left transition-all min-h-[70px] bg-bg-panel-raised border-border-subtle text-text-muted"
                     >
-                      {lecture.completed ? (
-                        <CheckSquare className="w-4 h-4 shrink-0 text-sync-green" />
-                      ) : (
-                        <Square className="w-4 h-4 shrink-0 text-text-dim" />
-                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleToggle(lecture.id, lecture.completed)}
+                        className={`flex items-center gap-2 text-left ${lecture.completed ? 'text-sync-green' : 'text-text-muted hover:text-text-primary'}`}
+                        aria-pressed={lecture.completed}
+                        aria-label={`Toggle lecture ${lecture.code ?? lecture.lectureNumber}`}
+                      >
+                        {lecture.completed ? (
+                          <CheckSquare className="w-4 h-4 shrink-0 text-sync-green" />
+                        ) : (
+                          <Square className="w-4 h-4 shrink-0 text-text-dim" />
+                        )}
                       <div className="min-w-0 flex-1 leading-none">
                         <span className="font-mono-tech text-xs block leading-none">
                           {lecture.code ?? `LEC-${String(lecture.lectureNumber).padStart(2, '0')}`}
@@ -141,7 +156,18 @@ export default function ChapterListLayout({
                           </span>
                         )}
                       </div>
-                    </button>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDtsToggle(lecture.id, Boolean(lecture.dtsCompleted))}
+                        className={`flex items-center gap-2 text-left text-[10px] font-mono-tech uppercase ${lecture.dtsCompleted ? 'text-sync-green' : 'text-hazard-yellow hover:text-text-primary'}`}
+                        aria-pressed={Boolean(lecture.dtsCompleted)}
+                        aria-label={`Toggle DTS ${lecture.code ?? lecture.lectureNumber}`}
+                      >
+                        {lecture.dtsCompleted ? <CheckSquare className="w-3.5 h-3.5 shrink-0" /> : <Square className="w-3.5 h-3.5 shrink-0" />}
+                        DTS
+                      </button>
+                    </div>
                   ))}
                 </div>
               </div>

@@ -31,6 +31,9 @@ export interface SubjectStats {
   totalHours: number;
   completedHours: number;
   percentage: number;
+  dtsCompleted: number;
+  dtsPending: number;
+  dtsPercentage: number;
 }
 
 export interface AppOverallStats {
@@ -42,21 +45,28 @@ export interface AppOverallStats {
   totalHours: number;
   completedHours: number;
   overallPercentage: number;
+  dtsCompleted: number;
+  dtsPending: number;
+  dtsPercentage: number;
 }
 
 export function calculateOverallStats(chapters: Chapter[], lectures: Lecture[], settings: AppSettings): AppOverallStats {
   // Create lookup for completed lectures count by chapterId
   const completedCountByChapter: Record<string, number> = {};
+  const dtsCountByChapter: Record<string, number> = {};
   lectures.forEach(l => {
     if (l.completed) {
       completedCountByChapter[l.chapterId] = (completedCountByChapter[l.chapterId] || 0) + 1;
     }
+    if (l.dtsCompleted) {
+      dtsCountByChapter[l.chapterId] = (dtsCountByChapter[l.chapterId] || 0) + 1;
+    }
   });
 
   const stats: Record<'Physics' | 'Chemistry' | 'Maths', SubjectStats> = {
-    Physics: { subject: 'Physics', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0 },
-    Chemistry: { subject: 'Chemistry', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0 },
-    Maths: { subject: 'Maths', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0 },
+    Physics: { subject: 'Physics', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0, dtsCompleted: 0, dtsPending: 0, dtsPercentage: 0 },
+    Chemistry: { subject: 'Chemistry', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0, dtsCompleted: 0, dtsPending: 0, dtsPercentage: 0 },
+    Maths: { subject: 'Maths', totalLectures: 0, completedLectures: 0, totalHours: 0, completedHours: 0, percentage: 0, dtsCompleted: 0, dtsPending: 0, dtsPercentage: 0 },
   };
 
   const speed = settings.chemPreferredSpeed || '1.25x';
@@ -66,6 +76,7 @@ export function calculateOverallStats(chapters: Chapter[], lectures: Lecture[], 
     s.totalLectures += c.totalLectures;
     const completed = completedCountByChapter[c.id] || 0;
     s.completedLectures += completed;
+    s.dtsCompleted += dtsCountByChapter[c.id] || 0;
 
     // Calculate Hours
     let chapterHours = 0;
@@ -87,14 +98,19 @@ export function calculateOverallStats(chapters: Chapter[], lectures: Lecture[], 
   // Calculate percentages
   Object.keys(stats).forEach(k => {
     const s = stats[k as 'Physics' | 'Chemistry' | 'Maths'];
-    s.percentage = s.totalHours > 0 ? (s.completedHours / s.totalHours) * 100 : 0;
+    s.percentage = s.totalLectures > 0 ? (s.completedLectures / s.totalLectures) * 100 : 0;
+    s.dtsPending = Math.max(0, s.totalLectures - s.dtsCompleted);
+    s.dtsPercentage = s.totalLectures > 0 ? (s.dtsCompleted / s.totalLectures) * 100 : 0;
   });
 
   const totalLectures = stats.Physics.totalLectures + stats.Chemistry.totalLectures + stats.Maths.totalLectures;
   const completedLectures = stats.Physics.completedLectures + stats.Chemistry.completedLectures + stats.Maths.completedLectures;
   const totalHours = stats.Physics.totalHours + stats.Chemistry.totalHours + stats.Maths.totalHours;
   const completedHours = stats.Physics.completedHours + stats.Chemistry.completedHours + stats.Maths.completedHours;
-  const overallPercentage = totalHours > 0 ? (completedHours / totalHours) * 100 : 0;
+  const overallPercentage = totalLectures > 0 ? (completedLectures / totalLectures) * 100 : 0;
+  const dtsCompleted = stats.Physics.dtsCompleted + stats.Chemistry.dtsCompleted + stats.Maths.dtsCompleted;
+  const dtsPending = Math.max(0, totalLectures - dtsCompleted);
+  const dtsPercentage = totalLectures > 0 ? (dtsCompleted / totalLectures) * 100 : 0;
 
   return {
     physics: stats.Physics,
@@ -105,6 +121,9 @@ export function calculateOverallStats(chapters: Chapter[], lectures: Lecture[], 
     totalHours,
     completedHours,
     overallPercentage,
+    dtsCompleted,
+    dtsPending,
+    dtsPercentage,
   };
 }
 
@@ -139,6 +158,7 @@ export interface TheoryCoverageProjection {
   actualLectures: number;
   actualPercentage: number;
   lectureGap: number;
+  configuredLecturesPerDay: number;
   actualLecturesPerDay: number;
   requiredLecturesPerDay: number;
   projectedCompletionDate: string | null;
@@ -156,6 +176,7 @@ export function calculateTheoryCoverageProjection(
   currentTime: Date,
   totalLectures: number,
   completedLectures: number,
+  configuredLecturesPerDay?: number,
 ): TheoryCoverageProjection {
   const startDay = parseIsoDateToUtcDay(theoryStartDate);
   const targetDay = parseIsoDateToUtcDay(theoryTargetDate);
@@ -173,6 +194,7 @@ export function calculateTheoryCoverageProjection(
       actualLectures: safeCompletedLectures,
       actualPercentage: safeTotalLectures > 0 ? (safeCompletedLectures / safeTotalLectures) * 100 : 0,
       lectureGap: safeCompletedLectures,
+      configuredLecturesPerDay: configuredLecturesPerDay ?? 0,
       actualLecturesPerDay: 0,
       requiredLecturesPerDay: 0,
       projectedCompletionDate: null,
@@ -193,7 +215,10 @@ export function calculateTheoryCoverageProjection(
   const plannedPercentage = totalPlanDays > 0
     ? clamp((elapsedPlanDays / totalPlanDays) * 100, 0, 100)
     : 0;
-  const plannedLectures = safeTotalLectures * (plannedPercentage / 100);
+  const configuredPace = Math.max(0, configuredLecturesPerDay ?? (safeTotalLectures / totalPlanDays));
+  const plannedLectures = configuredLecturesPerDay !== undefined
+    ? clamp(configuredPace * elapsedPlanDays, 0, safeTotalLectures)
+    : safeTotalLectures * (plannedPercentage / 100);
   const actualPercentage = safeTotalLectures > 0
     ? (safeCompletedLectures / safeTotalLectures) * 100
     : 0;
@@ -237,10 +262,11 @@ export function calculateTheoryCoverageProjection(
     elapsedPlanDays,
     remainingPlanDays,
     plannedLectures,
-    plannedPercentage,
+    plannedPercentage: safeTotalLectures > 0 ? (plannedLectures / safeTotalLectures) * 100 : plannedPercentage,
     actualLectures: safeCompletedLectures,
     actualPercentage,
     lectureGap,
+    configuredLecturesPerDay: configuredPace,
     actualLecturesPerDay,
     requiredLecturesPerDay,
     projectedCompletionDate,
