@@ -309,6 +309,300 @@
       "scrollAnimation": {
         "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
       }
+    },
+    {
+      "id": "verstappen-rb1",
+      "name": "Verstappen RB1",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#07111f",
+        "bgPanel": "#101b2f",
+        "bgPanelRaised": "#1d2b4a",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#ff7a00",
+        "accentPrimaryDim": "#ff7a00",
+        "accentSecondary": "#2f6fff",
+        "accentSecondaryBright": "#2f6fff",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "scuderia-red",
+      "name": "Scuderia Red",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#170506",
+        "bgPanel": "#26090b",
+        "bgPanelRaised": "#3a1012",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#ff2a2a",
+        "accentPrimaryDim": "#ff2a2a",
+        "accentSecondary": "#ffd100",
+        "accentSecondaryBright": "#ffd100",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "silver-arrow",
+      "name": "Silver Arrow",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#080d0f",
+        "bgPanel": "#11181b",
+        "bgPanelRaised": "#1f2b30",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#00e5d4",
+        "accentPrimaryDim": "#00e5d4",
+        "accentSecondary": "#d7dde2",
+        "accentSecondaryBright": "#d7dde2",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "papaya-racing",
+      "name": "Papaya Racing",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#120b05",
+        "bgPanel": "#211307",
+        "bgPanelRaised": "#321d0b",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#ff8700",
+        "accentPrimaryDim": "#ff8700",
+        "accentSecondary": "#47c7ff",
+        "accentSecondaryBright": "#47c7ff",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "british-racing-green",
+      "name": "British Racing Green",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#06120d",
+        "bgPanel": "#0d2118",
+        "bgPanelRaised": "#163425",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#2ecc71",
+        "accentPrimaryDim": "#2ecc71",
+        "accentSecondary": "#f7f1d0",
+        "accentSecondaryBright": "#f7f1d0",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "retro-grand-prix",
+      "name": "Retro Grand Prix",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#15110b",
+        "bgPanel": "#211b12",
+        "bgPanelRaised": "#332719",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#d7b56d",
+        "accentPrimaryDim": "#d7b56d",
+        "accentSecondary": "#b33a2b",
+        "accentSecondaryBright": "#b33a2b",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
+    },
+    {
+      "id": "neon-night-race",
+      "name": "Neon Night Race",
+      "inspiration": "Original Formula 1-inspired racing palette without official logos or driver photographs.",
+      "mood": "High-contrast motorsport dashboard with readable telemetry panels and reduced-motion-safe interactions.",
+      "colors": {
+        "bgVoid": "#050713",
+        "bgPanel": "#0b1024",
+        "bgPanelRaised": "#111a35",
+        "borderSubtle": "#303640",
+        "accentPrimary": "#ff2bd6",
+        "accentPrimaryDim": "#ff2bd6",
+        "accentSecondary": "#00f5ff",
+        "accentSecondaryBright": "#00f5ff",
+        "warning": "#ffd166",
+        "danger": "#ff4d5e",
+        "success": "#5cff9d",
+        "textPrimary": "#f8fafc",
+        "textMuted": "#b7c0cc",
+        "textDim": "#77808c"
+      },
+      "typography": {
+        "displayFont": "Orbitron",
+        "bodyFont": "Rajdhani",
+        "monoFont": "Share Tech Mono",
+        "googleFonts": [
+          "Orbitron:wght@600;700;900",
+          "Rajdhani:wght@400;500;600;700",
+          "Share Tech Mono"
+        ]
+      },
+      "motifs": {
+        "progressIndicatorStyle": "Timing-tower rings with red sector highlights and teal delta accents",
+        "sectionDividerStyle": "Chequered micro-stripe with a red DRS activation line",
+        "buttonStyle": "Pit-wall command buttons: compact uppercase labels, carbon dark fill, red active border",
+        "cardStyle": "Garage telemetry cards with lap/stint numbering and crisp panel borders",
+        "signatureElement": "Race-control delta readout comparing planned pace to actual lecture pace"
+      },
+      "scrollAnimation": {
+        "revealStyle": "Quick lights-out snap with short forward motion, like a race start sequence"
+      }
     }
   ]
 }

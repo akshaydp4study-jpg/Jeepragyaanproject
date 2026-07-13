@@ -78,4 +78,32 @@ describe('seedDatabase', () => {
     expect(settings?.activeThemeId).toBe('urban-wild');
   });
 
+  it('backfills DTS and planning fields without losing lecture progress', async () => {
+    await db.appSettings.put({
+      id: 'singleton',
+      mathsAvgLectureMinutes: 120,
+      chemPreferredSpeed: '1x',
+      theoryPlanStartDate: '2026-01-01',
+    } as any);
+    await db.lectures.put({
+      id: 'legacy-lecture-1',
+      chapterId: 'legacy-chapter',
+      lectureNumber: 1,
+      completed: true,
+      completedAt: '2026-01-02T00:00:00.000Z',
+    } as any);
+
+    await seedDatabase();
+
+    const lecture = await db.lectures.get('legacy-lecture-1');
+    expect(lecture?.completed).toBe(true);
+    expect(lecture?.completedAt).toBe('2026-01-02T00:00:00.000Z');
+    expect(lecture?.dtsCompleted).toBe(false);
+    expect(lecture?.dtsCompletedAt).toBeNull();
+
+    const settings = await db.appSettings.get('singleton');
+    expect(settings?.plannedLecturesPerDay).toBe(2);
+    expect(settings?.theoryTargetDate).toBe('2026-12-31');
+  });
+
 });

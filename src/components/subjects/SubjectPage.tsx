@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useChapters, useLectures, useAppSettings } from '../../hooks/useDbQueries';
-import { toggleLecture, bulkToggleLectures } from '../../data/dataAccess';
+import { toggleLecture, toggleLectureDts, bulkToggleLectures } from '../../data/dataAccess';
 import SyncRing from '../common/SyncRing';
 import { Search, ChevronDown, ChevronUp, CheckSquare, Square, Trash, AlertTriangle } from 'lucide-react';
 import type { Chapter, Lecture } from '../../types';
@@ -97,6 +97,10 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     await toggleLecture(lectureId, !currentStatus);
   };
 
+  const handleDtsToggle = async (lectureId: string, currentStatus: boolean) => {
+    await toggleLectureDts(lectureId, !currentStatus);
+  };
+
   const openBulkConfirm = (chapterId: string, action: 'complete' | 'reset') => {
     setConfirmModal({ isOpen: true, chapterId, action });
   };
@@ -173,6 +177,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
           expandedChapterId={expandedChapterId}
           setExpandedChapterId={setExpandedChapterId}
           handleToggle={handleToggle}
+          handleDtsToggle={handleDtsToggle}
           openBulkConfirm={openBulkConfirm}
           prefersReducedMotion={prefersReducedMotion}
         />

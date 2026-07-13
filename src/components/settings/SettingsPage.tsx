@@ -38,6 +38,11 @@ export default function SettingsPage() {
   const [phase1Date, setPhase1Date] = useState('');
 
   const [theoryStartDate, setTheoryStartDate] = useState('');
+  const [theoryTargetDate, setTheoryTargetDate] = useState('');
+  const [plannedLecturesPerDay, setPlannedLecturesPerDay] = useState('');
+  const [physicsLecturesPerDay, setPhysicsLecturesPerDay] = useState('');
+  const [chemistryLecturesPerDay, setChemistryLecturesPerDay] = useState('');
+  const [mathsLecturesPerDay, setMathsLecturesPerDay] = useState('');
   const [mathsMinutes, setMathsMinutes] = useState('');
   const [chemSpeed, setChemSpeed] = useState<'1x' | '1.25x' | '1.5x' | '1.75x' | '2x'>('1.25x');
 
@@ -86,6 +91,11 @@ export default function SettingsPage() {
     setPhase1Date(examConfig.phase1EndDate);
 
     setTheoryStartDate(settings.theoryPlanStartDate || '2026-07-04');
+    setTheoryTargetDate(settings.theoryTargetDate || examConfig.phase1EndDate);
+    setPlannedLecturesPerDay(String(settings.plannedLecturesPerDay ?? 2));
+    setPhysicsLecturesPerDay(settings.physicsLecturesPerDay == null ? '' : String(settings.physicsLecturesPerDay));
+    setChemistryLecturesPerDay(settings.chemistryLecturesPerDay == null ? '' : String(settings.chemistryLecturesPerDay));
+    setMathsLecturesPerDay(settings.mathsLecturesPerDay == null ? '' : String(settings.mathsLecturesPerDay));
     setMathsMinutes(settings.mathsAvgLectureMinutes.toString());
     setChemSpeed(settings.chemPreferredSpeed);
     setIsLoaded(true);
@@ -96,13 +106,20 @@ export default function SettingsPage() {
     setSaveSuccess(false);
 
     const parsedMathsMin = parseInt(mathsMinutes, 10);
+    const parsedPlannedLectures = parseFloat(plannedLecturesPerDay);
+    const parseOptionalPace = (value: string) => value.trim() === '' ? null : parseFloat(value);
     if (isNaN(parsedMathsMin) || parsedMathsMin <= 0) {
       alert('Maths Average Lecture Minutes must be a valid positive number.');
       return;
     }
 
-    if (!theoryStartDate || theoryStartDate > phase1Date) {
-      alert('Theory Plan Start Date must be on or before the Phase 1 syllabus deadline.');
+    if (!theoryStartDate || !theoryTargetDate || theoryStartDate > theoryTargetDate) {
+      alert('Plan Start Date must be on or before the Target Syllabus Completion Date.');
+      return;
+    }
+
+    if (isNaN(parsedPlannedLectures) || parsedPlannedLectures <= 0) {
+      alert('Planned lectures per day must be a valid positive number.');
       return;
     }
 
@@ -119,6 +136,11 @@ export default function SettingsPage() {
 
       await updateAppSettings({
         theoryPlanStartDate: theoryStartDate,
+        theoryTargetDate,
+        plannedLecturesPerDay: parsedPlannedLectures,
+        physicsLecturesPerDay: parseOptionalPace(physicsLecturesPerDay),
+        chemistryLecturesPerDay: parseOptionalPace(chemistryLecturesPerDay),
+        mathsLecturesPerDay: parseOptionalPace(mathsLecturesPerDay),
         mathsAvgLectureMinutes: parsedMathsMin,
         chemPreferredSpeed: chemSpeed,
       });
@@ -161,7 +183,7 @@ export default function SettingsPage() {
 
         // Validation
         if (!parsed || typeof parsed !== 'object') throw new Error('Malformed JSON schema');
-        if (parsed.version !== 1) throw new Error(`Unsupported export version: ${parsed.version}`);
+        if (parsed.version !== 1 && parsed.version !== 2 && parsed.version !== 3) throw new Error(`Unsupported export version: ${parsed.version}`);
         if (!Array.isArray(parsed.chapters) || !Array.isArray(parsed.lectures) || !Array.isArray(parsed.tests)) {
           throw new Error('Data vectors missing required chapter, lecture, or test tables');
         }
@@ -387,6 +409,19 @@ export default function SettingsPage() {
                   Used with the Phase 1 deadline to calculate expected lecture coverage and your projected theory completion date.
                 </span>
               </div>
+
+
+              <div className="space-y-1">
+                <label className="block font-orbitron font-bold text-text-muted uppercase tracking-wider">TARGET SYLLABUS COMPLETION DATE</label>
+                <input type="date" required value={theoryTargetDate} min={theoryStartDate || undefined} onChange={(e) => setTheoryTargetDate(e.target.value)} className="w-full bg-bg-void border border-border-subtle focus:border-nerv-orange rounded px-3 py-2 text-text-primary outline-none font-mono-tech" />
+              </div>
+              <div className="space-y-1">
+                <label className="block font-orbitron font-bold text-text-muted uppercase tracking-wider">PLANNED LECTURES PER DAY</label>
+                <input type="number" step="0.1" min="0.1" required value={plannedLecturesPerDay} onChange={(e) => setPlannedLecturesPerDay(e.target.value)} className="w-full bg-bg-void border border-border-subtle focus:border-nerv-orange rounded px-3 py-2 text-text-primary outline-none font-mono-tech" />
+              </div>
+              <div className="space-y-1"><label className="block font-orbitron font-bold text-text-muted uppercase tracking-wider">OPTIONAL PHYSICS LECTURES/DAY</label><input type="number" step="0.1" min="0" value={physicsLecturesPerDay} onChange={(e) => setPhysicsLecturesPerDay(e.target.value)} className="w-full bg-bg-void border border-border-subtle focus:border-nerv-orange rounded px-3 py-2 text-text-primary outline-none font-mono-tech" /></div>
+              <div className="space-y-1"><label className="block font-orbitron font-bold text-text-muted uppercase tracking-wider">OPTIONAL CHEMISTRY LECTURES/DAY</label><input type="number" step="0.1" min="0" value={chemistryLecturesPerDay} onChange={(e) => setChemistryLecturesPerDay(e.target.value)} className="w-full bg-bg-void border border-border-subtle focus:border-nerv-orange rounded px-3 py-2 text-text-primary outline-none font-mono-tech" /></div>
+              <div className="space-y-1"><label className="block font-orbitron font-bold text-text-muted uppercase tracking-wider">OPTIONAL MATHEMATICS LECTURES/DAY</label><input type="number" step="0.1" min="0" value={mathsLecturesPerDay} onChange={(e) => setMathsLecturesPerDay(e.target.value)} className="w-full bg-bg-void border border-border-subtle focus:border-nerv-orange rounded px-3 py-2 text-text-primary outline-none font-mono-tech" /></div>
 
               {/* Maths Avg Minutes */}
               <div className="space-y-1">

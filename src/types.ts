@@ -23,6 +23,8 @@ export interface Lecture {
   title?: string;           // full syllabus lecture title
   completed: boolean;
   completedAt: string | null;   // ISO timestamp
+  dtsCompleted: boolean;
+  dtsCompletedAt: string | null; // ISO timestamp for independent DTS completion
 }
 
 export interface ProblemSession {
@@ -77,5 +79,10 @@ export interface AppSettings {
   mathsAvgLectureMinutes: number;   // default 150 (2.5h)
   chemPreferredSpeed: '1x' | '1.25x' | '1.5x' | '1.75x' | '2x'; // default '1.25x'
   theoryPlanStartDate: string; // ISO date used for planned-vs-actual theory projection
+  theoryTargetDate?: string; // ISO date used for planned syllabus completion
+  plannedLecturesPerDay?: number;
+  physicsLecturesPerDay?: number | null;
+  chemistryLecturesPerDay?: number | null;
+  mathsLecturesPerDay?: number | null;
   activeThemeId?: string; // default 'nerv-terminal'
 }

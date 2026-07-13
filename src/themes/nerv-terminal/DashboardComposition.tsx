@@ -230,6 +230,7 @@ export default function DashboardComposition({
                   <h4 className="text-sm font-bold font-orbitron text-text-primary uppercase tracking-widest mt-3 group-hover:text-nerv-orange transition-colors">PHYSICS</h4>
                   <div className="text-[11px] font-mono-tech text-text-muted mt-2 space-y-0.5">
                     <div>LECTURES: {stats.physics.completedLectures}/{stats.physics.totalLectures}</div>
+                    <div>DTS: {stats.physics.dtsCompleted}/{stats.physics.totalLectures} ({stats.physics.dtsPercentage.toFixed(1)}%)</div>
                     <div>HOURS: {stats.physics.completedHours.toFixed(1)}h / {stats.physics.totalHours.toFixed(1)}h</div>
                   </div>
                 </Link>
@@ -242,7 +243,12 @@ export default function DashboardComposition({
                   <SyncRing percentage={stats.chemistry.percentage} size={64} strokeWidth={5} label="" />
                   <h4 className="text-sm font-bold font-orbitron text-text-primary uppercase tracking-widest mt-3 group-hover:text-nerv-orange transition-colors">CHEMISTRY</h4>
                   <div className="text-[11px] font-mono-tech text-text-muted mt-2 space-y-0.5">
-                    <div>LECTURES: {stats.chemistry.completedLectures}/{stats.chemistry.totalLectures}</div>
+                    <div>TOTAL CHEMISTRY LECTURES: {stats.chemistry.totalLectures}</div>
+                    <div>COMPLETED CHEMISTRY LECTURES: {stats.chemistry.completedLectures}</div>
+                    <div>LECTURE COMPLETION: {stats.chemistry.percentage.toFixed(1)}%</div>
+                    <div>COMPLETED CHEMISTRY DTS: {stats.chemistry.dtsCompleted}</div>
+                    <div>PENDING CHEMISTRY DTS: {stats.chemistry.dtsPending}</div>
+                    <div>CHEMISTRY DTS: {stats.chemistry.dtsPercentage.toFixed(1)}%</div>
                     <div>HOURS: {stats.chemistry.completedHours.toFixed(1)}h / {stats.chemistry.totalHours.toFixed(1)}h</div>
                   </div>
                 </Link>
@@ -256,6 +262,7 @@ export default function DashboardComposition({
                   <h4 className="text-sm font-bold font-orbitron text-text-primary uppercase tracking-widest mt-3 group-hover:text-nerv-orange transition-colors">MATHEMATICS</h4>
                   <div className="text-[11px] font-mono-tech text-text-muted mt-2 space-y-0.5">
                     <div>LECTURES: {stats.maths.completedLectures}/{stats.maths.totalLectures}</div>
+                    <div>DTS: {stats.maths.dtsCompleted}/{stats.maths.totalLectures} ({stats.maths.dtsPercentage.toFixed(1)}%)</div>
                     <div>HOURS: {stats.maths.completedHours.toFixed(1)}h / {stats.maths.totalHours.toFixed(1)}h</div>
                   </div>
                 </Link>
@@ -296,6 +303,10 @@ export default function DashboardComposition({
               <div className="flex justify-between">
                 <span className="text-text-muted">TOTAL LECTURES DONE:</span>
                 <span className="text-text-primary font-bold">{stats.completedLectures} / {stats.totalLectures}</span>
+              </div>
+              <div className="flex justify-between border-t border-border-subtle/50 pt-2">
+                <span className="text-text-muted">TOTAL DTS DONE:</span>
+                <span className="text-text-primary font-bold">{stats.dtsCompleted} / {stats.totalLectures} ({stats.dtsPercentage.toFixed(1)}%)</span>
               </div>
               <div className="flex justify-between border-t border-border-subtle/50 pt-2">
                 <span className="text-text-muted">TOTAL SYLLABUS HOURS:</span>

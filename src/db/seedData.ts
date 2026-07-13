@@ -151,5 +151,10 @@ export const APP_SETTINGS_DEFAULT = {
   mathsAvgLectureMinutes: 120,
   chemPreferredSpeed: '1.25x' as const,
   theoryPlanStartDate: '2026-07-04',
+  theoryTargetDate: '2026-12-31',
+  plannedLecturesPerDay: 2,
+  physicsLecturesPerDay: null,
+  chemistryLecturesPerDay: null,
+  mathsLecturesPerDay: null,
   activeThemeId: 'nerv-terminal' as const,
 };

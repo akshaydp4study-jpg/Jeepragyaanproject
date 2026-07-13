@@ -35,10 +35,11 @@ export default function TheoryCoveragePanel({
 }: TheoryCoveragePanelProps) {
   const projection = calculateTheoryCoverageProjection(
     settings.theoryPlanStartDate,
-    examConfig.phase1EndDate,
+    settings.theoryTargetDate || examConfig.phase1EndDate,
     currentTime,
     stats.totalLectures,
     stats.completedLectures,
+    settings.plannedLecturesPerDay,
   );
 
   const expectedLectures = Math.round(projection.plannedLectures);
@@ -85,7 +86,7 @@ export default function TheoryCoveragePanel({
             Planned coverage vs actual completion
           </h3>
           <p className="text-xs text-text-muted mt-1 max-w-3xl">
-            Planned coverage rises linearly from your theory start date to the Phase 1 deadline. Actual coverage uses the lecture toggles you complete.
+            Planned coverage uses your configured lectures-per-day plan from your theory start date to the Phase 1 deadline. Actual coverage uses the lecture toggles you complete.
           </p>
         </div>
 
@@ -105,7 +106,7 @@ export default function TheoryCoveragePanel({
                     Planned theoretical coverage by today
                   </span>
                   <div className="text-sm font-mono-tech text-text-primary mt-0.5">
-                    {expectedLectures} / {stats.totalLectures} lectures expected
+                    {expectedLectures} / {stats.totalLectures} lectures expected by today
                   </div>
                 </div>
                 <strong className="text-xl font-mono-tech text-hazard-yellow">
@@ -147,7 +148,7 @@ export default function TheoryCoveragePanel({
             <div className="bg-bg-panel-raised border border-border-subtle rounded p-4">
               <div className="flex items-center gap-2 text-text-muted">
                 <Layers className="w-4 h-4 text-nerv-orange" />
-                <span className="text-[10px] font-bold font-orbitron tracking-wider uppercase">Coverage gap</span>
+                <span className="text-[10px] font-bold font-orbitron tracking-wider uppercase">Lecture difference</span>
               </div>
               <div className={`text-2xl font-black font-mono-tech mt-2 ${isBehind ? 'text-alert-red' : 'text-sync-green'}`}>
                 {signedLectureGap(projection.lectureGap)}
@@ -204,7 +205,11 @@ export default function TheoryCoveragePanel({
             </div>
             <div className="flex justify-between gap-3">
               <span className="text-text-muted">TARGET FINISH</span>
-              <strong className="text-text-primary">{formatIsoDate(examConfig.phase1EndDate)}</strong>
+              <strong className="text-text-primary">{formatIsoDate(settings.theoryTargetDate || examConfig.phase1EndDate)}</strong>
+            </div>
+            <div className="flex justify-between gap-3">
+              <span className="text-text-muted">PLANNED LECTURES / DAY</span>
+              <strong className="text-text-primary">{projection.configuredLecturesPerDay.toFixed(2)}</strong>
             </div>
             <div className="flex justify-between gap-3">
               <span className="text-text-muted">PLAN DAYS USED</span>

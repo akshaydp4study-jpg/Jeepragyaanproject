@@ -21,6 +21,7 @@ export interface ChapterListLayoutProps {
   expandedChapterId: string | null;
   setExpandedChapterId: (id: string | null) => void;
   handleToggle: (lectureId: string, currentStatus: boolean) => Promise<void>;
+  handleDtsToggle: (lectureId: string, currentStatus: boolean) => Promise<void>;
   openBulkConfirm: (chapterId: string, action: 'complete' | 'reset') => void;
   prefersReducedMotion?: boolean;
 }

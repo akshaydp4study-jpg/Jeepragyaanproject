@@ -53,6 +53,8 @@ async function seedSubject(
       title: lecture.title,
       completed: false,
       completedAt: null,
+      dtsCompleted: false,
+      dtsCompletedAt: null,
     }));
 
     const existingLectureIds = new Set(
@@ -96,12 +98,21 @@ export async function seedDatabase() {
   const settingsExists = await db.appSettings.get('singleton');
   if (!settingsExists) {
     await db.appSettings.put(APP_SETTINGS_DEFAULT);
-  } else if (!settingsExists.theoryPlanStartDate) {
-    // Backfill the new planning field without disturbing saved progress or preferences.
+  } else {
     await db.appSettings.update('singleton', {
-      theoryPlanStartDate: APP_SETTINGS_DEFAULT.theoryPlanStartDate,
+      theoryPlanStartDate: settingsExists.theoryPlanStartDate || APP_SETTINGS_DEFAULT.theoryPlanStartDate,
+      theoryTargetDate: settingsExists.theoryTargetDate || APP_SETTINGS_DEFAULT.theoryTargetDate,
+      plannedLecturesPerDay: settingsExists.plannedLecturesPerDay ?? APP_SETTINGS_DEFAULT.plannedLecturesPerDay,
+      physicsLecturesPerDay: settingsExists.physicsLecturesPerDay ?? APP_SETTINGS_DEFAULT.physicsLecturesPerDay,
+      chemistryLecturesPerDay: settingsExists.chemistryLecturesPerDay ?? APP_SETTINGS_DEFAULT.chemistryLecturesPerDay,
+      mathsLecturesPerDay: settingsExists.mathsLecturesPerDay ?? APP_SETTINGS_DEFAULT.mathsLecturesPerDay,
     });
   }
+
+  await db.lectures.filter((lecture) => lecture.dtsCompleted === undefined).modify({
+    dtsCompleted: false,
+    dtsCompletedAt: null,
+  });
 
   await seedSubject('Physics', PHYSICS_SEED);
   await seedSubject('Chemistry', CHEMISTRY_SEED);

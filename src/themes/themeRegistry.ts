@@ -14,4 +14,11 @@ export const themeRegistry: Record<string, any> = {
   'wanderlust-japan': wanderlustJapan,
   'duotone-folio': duotoneFolio,
   'formula-one-paddock': formulaOnePaddock,
+  'neon-night-race': formulaOnePaddock,
+  'retro-grand-prix': formulaOnePaddock,
+  'british-racing-green': formulaOnePaddock,
+  'papaya-racing': formulaOnePaddock,
+  'silver-arrow': formulaOnePaddock,
+  'scuderia-red': formulaOnePaddock,
+  'verstappen-rb1': formulaOnePaddock,
 };
